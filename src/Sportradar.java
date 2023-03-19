@@ -23,6 +23,10 @@ public class Sportradar {
 	    scoreboard.startNewMatch("Argentina", "Australia");
 	    scoreboard.updateScore(3, 1);
 	    scoreboard.finishMatch();
+	    
+	    scoreboard.startNewMatch("India", "Australia");
+	    scoreboard.updateScore(33, 1);
+	    scoreboard.finishMatch();
 
 	    scoreboard.getSummary();
 	}
