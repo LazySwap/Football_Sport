@@ -2,32 +2,34 @@
 public class Sportradar {
 
 	public static void main(String[] args) {
-	    LiveFootballScoreboard scoreboard = new LiveFootballScoreboard();
+		
+		try
+		{
+		 LiveFootballScoreboard scoreboard = new LiveFootballScoreboard();
 
-	    scoreboard.startNewMatch("Mexico", "Canada");
-	    scoreboard.updateScore(0, 5);
-	    scoreboard.finishMatch();
+		    String[][] matchDetails = {
+		            {"Mexico", "Canada", "5", "0"},
+		            {"Spain", "Brazil", "10", "2"},
+		            {"Germany", "France", "2", "2"},
+		            {"Uruguay", "Italy", "6", "6"},
+		            {"Argentina", "Australia", "3", "1"}
+		        };
 
-	    scoreboard.startNewMatch("Spain", "Brazil");
-	    scoreboard.updateScore(10, 2);
-	    scoreboard.finishMatch();
+		        for (String[] details : matchDetails) {
+		            String home = details[0];
+		            String away = details[1];
+		            int homeScore = Integer.parseInt(details[2]);
+		            int awayScore = Integer.parseInt(details[3]);
 
-	    scoreboard.startNewMatch("Germany", "France");
-	    scoreboard.updateScore(2, 2);
-	    scoreboard.finishMatch();
-
-	    scoreboard.startNewMatch("Uruguay", "Italy");
-	    scoreboard.updateScore(6, 6);
-	    scoreboard.finishMatch();
-
-	    scoreboard.startNewMatch("Argentina", "Australia");
-	    scoreboard.updateScore(3, 1);
-	    scoreboard.finishMatch();
-	    
-	    scoreboard.startNewMatch("India", "Australia");
-	    scoreboard.updateScore(33, 1);
-	    scoreboard.finishMatch();
-
-	    scoreboard.getSummary();
+		            scoreboard.startNewMatch(home, away);
+		            scoreboard.updateScore(homeScore, awayScore);
+		            scoreboard.finishMatch();
+		        }
+		        
+		        scoreboard.getSummary();
+		} catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Not enough arguments passed to create LiveFootballScoreboard object.");
+        }
+	   
 	}
 }

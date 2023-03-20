@@ -14,7 +14,8 @@ public void startNewMatch(String home, String away) {
         System.out.println("Cannot start a new match while another match is in progress.");
         return;
     }
-    FootballMatch match = new FootballMatch(home, away);
+    
+    FootballMatch match = new FootballMatch(home, away,0,0);
     inProgress.put(0, match);
 }
 
@@ -26,12 +27,25 @@ public void updateScore(int homeScore, int awayScore) {
 
     // get the current match
     FootballMatch currentMatch = inProgress.firstEntry().getValue();
+    
 
     // update the score
-    currentMatch.homeScore = homeScore;
-    currentMatch.awayScore = awayScore;
+    currentMatch.setHomeScore(homeScore);;
+    currentMatch.setAwayScore(awayScore);
 }
 
+public TreeMap<Integer, FootballMatch> getInProgress() {
+    return inProgress;
+}
+
+public HashMap<Integer, FootballMatch> getFinished() {
+    return finished;
+}
+
+
+
+//This method finishes the current match that is in progress, by moving it from the inProgress TreeMap to the finished HashMap.
+//If there is no match in progress, it prints an error message and returns.
 public void finishMatch() {
     if (inProgress.isEmpty()) {
         System.out.println("No match is currently in progress to finish.");
@@ -46,34 +60,37 @@ public void finishMatch() {
     inProgress.remove(inProgress.firstKey());
 }
 
-//public static boolean compareMatches(FootballMatch a, FootballMatch b) {
-//    int aTotalScore = a.homeScore + a.awayScore;
-//    int bTotalScore = b.homeScore + b.awayScore;
-//    if (aTotalScore != bTotalScore) {
-//        return aTotalScore > bTotalScore;
-//    } else {
-//        return a.hashCode() > b.hashCode();
-//    }
-//}
 
+/**
+ * Compares two football matches based on their total score, with ties broken using their hash codes.
+ * If the total scores of the matches are different, the match with the higher total score comes first.
+ * If the total scores are the same, the match with the higher hash code comes first.
+ * @param a the first match to compare
+ * @param b the second match to compare
+ * @return a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second
+ */
 public static int compareMatches(FootballMatch a, FootballMatch b) {
-    int aTotalScore = a.homeScore + a.awayScore;
-    int bTotalScore = b.homeScore + b.awayScore;
+    int aTotalScore = a.getHomeScore() + a.getAwayScore();
+    int bTotalScore = b.getHomeScore() + b.getAwayScore();
     if (aTotalScore != bTotalScore) {
-        return bTotalScore - aTotalScore;
+        return Integer.compare(bTotalScore, aTotalScore);
     } else {
-        return b.hashCode() - a.hashCode();
+        return Integer.compare(b.hashCode(), a.hashCode());
     }
 }
 
 
+/**
+ * Prints a list of matches in progress and finished matches sorted by score in descending order.
+ * If there are no matches in progress or finished matches, "None" is printed for that section.
+ */
 public void getSummary() {
     System.out.println("Matches in progress:");
     if (inProgress.isEmpty()) {
         System.out.println("None");
     } else {
         for (FootballMatch match : inProgress.values()) {
-            System.out.println(match.homeTeam + " " + match.homeScore + " - " + match.awayScore + " " + match.awayTeam);
+            System.out.println(match.getHomeTeam() + " " + match.getHomeScore() + " - " + match.getAwayScore() + " " + match.getAwayTeam());
         }
     }
 
@@ -86,7 +103,7 @@ public void getSummary() {
         // Sort the finished matches in descending order of their total score, with the most recent match first
         Collections.sort(sortedMatches, LiveFootballScoreboard::compareMatches);
         for (FootballMatch match : sortedMatches) {
-            System.out.println(match.homeTeam + " " + match.homeScore + " - " + match.awayScore + " " + match.awayTeam);
+        	System.out.println(match.getHomeTeam() + " " + match.getHomeScore() + " - " + match.getAwayScore() + " " + match.getAwayTeam());
         }
     }
 }
