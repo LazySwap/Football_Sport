@@ -9,6 +9,13 @@ public LiveFootballScoreboard() {
     finished = new HashMap<>();
 }
 
+
+/**
+ * Starts a new match with the given home and away teams. If a match is already in progress, an error message is printed.
+ *
+ * @param home the name of the home team
+ * @param away the name of the away team
+ */
 public void startNewMatch(String home, String away) {
     if (!inProgress.isEmpty()) {
         System.out.println("Cannot start a new match while another match is in progress.");
@@ -19,6 +26,13 @@ public void startNewMatch(String home, String away) {
     inProgress.put(0, match);
 }
 
+/**
+ * Updates the score for the current match in progress.
+ * If no match is in progress, an error message is printed.
+ *
+ * @param homeScore The updated score for the home team
+ * @param awayScore The updated score for the away team
+ */
 public void updateScore(int homeScore, int awayScore) {
     if (inProgress.isEmpty()) {
         System.out.println("No match is currently in progress to update the score.");
@@ -44,8 +58,10 @@ public HashMap<Integer, FootballMatch> getFinished() {
 
 
 
-//This method finishes the current match that is in progress, by moving it from the inProgress TreeMap to the finished HashMap.
-//If there is no match in progress, it prints an error message and returns.
+/**
+ * This method finishes the current football match in progress and moves it to the finished matches map.
+ * If no match is in progress, an error message is printed.
+ */
 public void finishMatch() {
     if (inProgress.isEmpty()) {
         System.out.println("No match is currently in progress to finish.");

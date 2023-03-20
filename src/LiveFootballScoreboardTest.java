@@ -63,7 +63,6 @@ public class LiveFootballScoreboardTest {
         assertTrue(LiveFootballScoreboard.compareMatches(match1, match2) < 0);
     }
 
-    // Add more test cases as needed...
 
 }
 
